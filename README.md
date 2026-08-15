@@ -19,6 +19,10 @@ Independent researcher. LLM inference and quantization on consumer hardware.
 
 - [electric-sheep](https://github.com/devan-carlin/electric-sheep) — deployment scripts for Intel Arc B70 (vLLM) and RTX 5090 (llama.cpp) inference servers. Includes the technical deep-dive and benchmark results.
 
+## Models
+
+- [Qwen3.8-27B INT4 (AutoRound)](https://huggingface.co/devan-carlin/Qwen3.8-27B-int4-AutoRound) — INT4 w4g128 quantization, 18 GB, 256K context. 47.8 tok/s on 4x Arc Pro B70 (58% faster than BF16, quality parity).
+
 ## Writing and contributions
 
 - "vLLM Crashes on Intel INT4 MoE Models. Here's the Fix." — write-up of a crash in vLLM's Intel quantization backend and the guard that fixes it
