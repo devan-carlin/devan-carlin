@@ -11,9 +11,9 @@ Independent researcher. LLM inference and quantization on consumer hardware.
 
 ## Hardware
 
-- 4x Intel Arc Pro B70 (Battlemage, 34 GB each)
+- 4x Intel Arc Pro B70 (Battlemage, 32 GB each)
 - NVIDIA RTX 5090
-- AMD Ryzen Threadripper PRO 3945WX, 247 GB RAM
+- AMD Ryzen Threadripper PRO 3945WX, 256 GB RAM
 
 ## Projects
 
