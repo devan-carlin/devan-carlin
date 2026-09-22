@@ -57,6 +57,12 @@ workstation-class hardware.
   fork of SergiioB's cookbook, carrying the bare-metal vLLM XPU source-build
   recipe. Reproducible Arc B70 recipes: build steps, patch stack, launch flags,
   and measured results per model.
+- [NInfer, `windows-native-port` branch](https://github.com/devan-carlin/ninfer/tree/windows-native-port):
+  Windows port of the NInfer C++/CUDA inference engine, running Qwen3.8-27B
+  natively (MSVC + CUDA, no WSL) on a single RTX 5090. Adds a native Win32
+  file-mapping artifact path (`CreateFileW`/`MapViewOfFile`), a TMA
+  tensormap-proxy fix, and a portable PowerShell serve harness
+  (`scripts/windows/`).
 - [`vn-pipeline`](https://github.com/devan-carlin/vn-pipeline): pose-to-video
   pipeline. `SDPose` and `YOLOv8m-seg` extract skeletons, `ComfyUI` runs the
   graphs, `ffmpeg` assembles the output.
