@@ -9,8 +9,9 @@ workstation-class hardware.
   measured against the BF16 baseline, not assumed.
 - **Inference serving.** vLLM on Intel Arc through the XPU backend. llama.cpp on
   NVIDIA.
-- **Upstream fixes.** Patches to vLLM and vllm-xpu-kernels for Intel hardware,
-  contributed upstream rather than held in a private fork.
+- **Upstream fixes.** vLLM patches for Intel hardware. One INT4 fix is an open
+  upstream PR (#52428). The Flash-Next model port and the worker-affinity fix
+  ship as a fork branch and a build-time patch.
 - **Tech stack.** Inference: `vLLM`, `llama.cpp`, `SGLang`, `AutoRound`,
   `oneAPI`/SYCL, Level-Zero. Image and video: `ComfyUI`.
 
@@ -34,16 +35,18 @@ workstation-class hardware.
     Still Took Two Patches.* and *vLLM Crashes on Intel INT4 MoE Models. Here's
     the Fix.*
 - [vLLM fork, `xpu-qwen4exp` branch](https://github.com/devan-carlin/vllm/tree/xpu-qwen4exp):
-  the two patches that make Qwen3.8-Flash-Next run on four discrete Arc cards.
-  - Model port: 17 files. vLLM has no `qwen4_exp` architecture, so the patch adds
-    the registry entry, config class, W4A16 linear kernels for the XPU backend,
-    and the linear-attention forward path.
-  - Worker affinity: 30 lines. vLLM gives every tensor-parallel worker (TP, one
-    model split across several GPUs) the full GPU mask, so each rank initializes
-    all four devices. Discrete Arc cards on desktop PCIe cannot open the
-    resulting peer-memory handles. Rank N gets card N.
-  - Upstream: fixed a `copy_()` shape-mismatch crash when loading INT4 checkpoints
-    with symmetric (empty-qzeros) layers.
+  the model port that makes Qwen3.8-Flash-Next run on four discrete Arc cards.
+  - Model port: 17 files on the branch. vLLM has no `qwen4_exp` architecture, so
+    it adds the registry entry, config class, W4A16 linear kernels for the XPU
+    backend, and the linear-attention forward path.
+  - Worker affinity: a 30-line build-time patch, in `electric-sheep`. vLLM gives
+    every tensor-parallel worker (TP, one model split across several GPUs) the
+    full GPU mask, so each rank initializes all four devices. Discrete Arc cards
+    on desktop PCIe cannot open the resulting peer-memory handles. Rank N gets
+    card N.
+  - Upstream: [`copy_()` shape-mismatch fix, PR #52428](https://github.com/vllm-project/vllm/pull/52428)
+    is open, awaiting review. Fixes a crash loading INT4 checkpoints with
+    symmetric (empty-qzeros) layers.
 - [`actlens`](https://github.com/devan-carlin/actlens): cross-engine activation
   diff. Dumps intermediate tensors from a known-good engine (`llama.cpp`) and a
   suspect one (`vLLM`), walks layer-by-layer, and reports the first divergence.
